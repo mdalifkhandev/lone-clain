@@ -1,18 +1,16 @@
 import Image from 'next/image';
 
-// Assuming your image is in the public folder
 import missionImage from '../assets/mission.jpg';
 
 const Mission = () => {
   return (
     <div className='flex flex-col md:flex-row my-4 md:my-8 lg:my-14 justify-center gap-4 items-center mx-5 md:mx-14 lg:mx-28'>
       <div className='md:w-1/2 rounded-lg'>
-        <Image 
-          src={missionImage} 
-          alt="Our Mission" 
+        <Image
+          src={missionImage}
+          alt="Our Mission"
           className='rounded-lg'
-          // Add width and height for Next.js Image component
-          width={600} 
+          width={600}
           height={400}
         />
       </div>

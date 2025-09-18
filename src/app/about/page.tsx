@@ -7,16 +7,10 @@ import React from 'react';
 const page = () => {
     return (
         <div className='bg-white'>
-            <AboutBanner/>
-            <Mission/>
-            <Vision/>
-            <CoreValues/>
-            {/*
-            <AboutBanner></AboutBanner>
-            <Mission></Mission>
-            <Vision></Vision>
-            <CoreValues></CoreValues>
-            */}
+            <AboutBanner />
+            <Mission />
+            <Vision />
+            <CoreValues />
         </div>
     );
 };

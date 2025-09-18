@@ -4,7 +4,6 @@ import React from "react";
 import { IconType } from "react-icons";
 import coreValues from "../data/coreValues";
 
-// Define the shape of a single core value object
 interface CoreValue {
   id: number;
   icon: IconType;
