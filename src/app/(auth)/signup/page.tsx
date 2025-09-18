@@ -1,13 +1,14 @@
-'use client';
+'use client'; // এটি নিশ্চিত করে যে এই ফাইলটি একটি ক্লায়েন্ট কম্পোনেন্ট
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { FaEnvelope, FaPhone, FaLock, FaEyeSlash, FaEye } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaLock } from 'react-icons/fa';
 import { FormData } from '@/components/interface';
 import { useUserRegister } from '@/components/api/server/auth';
 import FormInput from '@/components/custom/FromInput';
+import { AxiosError } from 'axios';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +18,6 @@ const SignupPage = () => {
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
   
-
   const {
     register,
     handleSubmit,
@@ -33,18 +33,20 @@ const SignupPage = () => {
     },
   });
 
-
-  const onSubmit = (data: FormData) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     mutate(data, {
       onSuccess: () => {
-        toast.success("Form submitted successfully!");
+        toast.success("Registration successful!");
       },
-      onError: (err:any) => {
-          toast.error(err.response.data.message || "Failed to register. Please try again.");
-        
+      onError: (err) => {
+        if (err instanceof AxiosError) {
+          const errorMessage = err.response?.data?.message || "Failed to register. Please try again.";
+          toast.error(errorMessage);
+        } else {
+          toast.error("An unknown error occurred.");
+        }
       },
     });
-    
   };
 
   return (
@@ -130,8 +132,6 @@ const SignupPage = () => {
           >
             {status === 'pending' ? 'Signing Up...' : 'Sign Up'}
           </button>
-
-          {(error as any)?.response?.data?.message && <p className="text-red-600 text-sm mt-4 text-center">{(error as any)?.response?.data?.message}</p>}
 
           <div className="flex items-center justify-center gap-2 text-sm sm:text-base">
             <p className='text-black'>Already have an account?</p>

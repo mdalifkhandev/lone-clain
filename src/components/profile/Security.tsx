@@ -7,10 +7,10 @@ import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 
 // 1. Define the TypeScript interfaces
-interface User {
-  _id?: string;
-  email: string;
-}
+// interface User {
+//   _id?: string;
+//   email: string;
+// }
 
 interface PasswordUpdateData {
   email: string;
@@ -53,8 +53,9 @@ const Security = () => {
     try {
       const response = await axios.patch("/api/v1/user/security", newUpdatedPassword);
       toast.success(response.data?.message);
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to change password.");
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      toast.error(err?.response?.data?.message || "Failed to change password.");
     }
   };
 

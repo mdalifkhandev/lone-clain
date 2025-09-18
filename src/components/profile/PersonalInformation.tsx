@@ -2,36 +2,32 @@
 
 import React, { useState } from "react";
 import { MdOutlineEditNote } from "react-icons/md";
-import { useAuthStore } from "../store/authStore";
-import { toast } from "react-toastify";
-import useSWR, { mutate } from "swr";
-import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "../custom/FromInput";
 import { useGetUser } from "../api/server/user";
 
-interface PersonalInfo {
-  firstName?: string;
-  lastName?: string;
-}
+// interface PersonalInfo {
+//   firstName?: string;
+//   lastName?: string;
+// }
 
-interface ContactInfo {
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-}
+// interface ContactInfo {
+//   address?: string;
+//   city?: string;
+//   state?: string;
+//   zipCode?: string;
+// }
 
-interface ProfileData {
-  phone?: string;
-  personalInfo?: PersonalInfo;
-  contactInfo?: ContactInfo;
-}
+// interface ProfileData {
+//   phone?: string;
+//   personalInfo?: PersonalInfo;
+//   contactInfo?: ContactInfo;
+// }
 
-interface User {
-  _id: string;
-  email: string;
-}
+// interface User {
+//   _id: string;
+//   email: string;
+// }
 
 interface IFormInput {
   'first-name': string;
@@ -44,45 +40,35 @@ interface IFormInput {
   zip: string;
 }
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
+// const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
 
 const PersonalInformation = () => {
-  const { user, isLoggedIn } = useAuthStore();
+  // const { user, isLoggedIn } = useAuthStore();
   const [updateProfile, setUpdateProfile] = useState<boolean>(false);
   const {data:userData}=useGetUser()
   const userLoginData=userData?.data.data
   
 
-  const { data: profileInfo, error, isLoading } = useSWR<ProfileData>(
-    isLoggedIn && (user as any)._id ? `/api/v1/profile/${(user as any)._id}` : null,
-    fetcher
-  );
+ 
 
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-  const handleUpdateProfile: SubmitHandler<IFormInput> = async (data) => {
-    const updatedProfile: ProfileData = {
-      phone: data.phone,
-      personalInfo: {
-        firstName: data['first-name'],
-        lastName: data['last-name'],
-      },
-      contactInfo: {
-        address: data.street,
-        city: data.city,
-        state: data.state,
-        zipCode: data.zip,
-      },
-    };
+  const handleUpdateProfile: SubmitHandler<IFormInput> = async () => {
+    // const updatedProfile: ProfileData = {
+    //   phone: data.phone,
+    //   personalInfo: {
+    //     firstName: data['first-name'],
+    //     lastName: data['last-name'],
+    //   },
+    //   contactInfo: {
+    //     address: data.street,
+    //     city: data.city,
+    //     state: data.state,
+    //     zipCode: data.zip,
+    //   },
+    // };
 
-    try {
-      const response = await axios.patch(`/api/v1/profile/${(user as any)._id}`, updatedProfile);
-      toast.success(response?.data?.message || "Profile updated successfully!");
-      setUpdateProfile(false);
-      mutate(`/api/v1/profile/${(user as any)._id}`);
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to update profile.");
-    }
+  
   };
 
   return (
@@ -103,7 +89,7 @@ const PersonalInformation = () => {
               label="First Name"
               name="first-name"
               type="text"
-              defaultValue={profileInfo?.personalInfo?.firstName || ""}
+              defaultValue={  ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -115,7 +101,7 @@ const PersonalInformation = () => {
               label="Last Name"
               name="last-name"
               type="text"
-              defaultValue={profileInfo?.personalInfo?.lastName || ""}
+              defaultValue={ ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -156,7 +142,7 @@ const PersonalInformation = () => {
             label="Street Address"
             name="street"
             type="text"
-            defaultValue={profileInfo?.contactInfo?.address || ""}
+            defaultValue={ ""}
             disabled={!updateProfile}
             errors={errors}
             register={register}
@@ -170,7 +156,7 @@ const PersonalInformation = () => {
               label="City"
               name="city"
               type="text"
-              defaultValue={profileInfo?.contactInfo?.city || ""}
+              defaultValue={ ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -183,7 +169,7 @@ const PersonalInformation = () => {
               label="State"
               name="state"
               type="text"
-              defaultValue={profileInfo?.contactInfo?.state || ""}
+              defaultValue={ ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -196,7 +182,7 @@ const PersonalInformation = () => {
               label="ZIP Code"
               name="zip"
               type="text"
-              defaultValue={profileInfo?.contactInfo?.zipCode || ""}
+              defaultValue={ ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}

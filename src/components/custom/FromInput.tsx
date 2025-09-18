@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, ElementType } from 'react';
+import { ElementType } from 'react';
 import { UseFormRegister, FieldErrors, RegisterOptions, FieldValues, Path } from 'react-hook-form';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
 
@@ -64,7 +64,7 @@ const FormInput = <TFormValues extends FieldValues>({
           </button>
         )}
       </div>
-      {errors[name] && <p className="text-red-600 text-sm mt-1">{(errors[name] as any)?.message}</p>}
+      {errors[name] && <p className="text-red-600 text-sm mt-1">{(errors[name] as Error)?.message}</p>}
     </div>
   );
 };

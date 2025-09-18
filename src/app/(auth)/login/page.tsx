@@ -11,8 +11,9 @@ import { useUserLogin } from "@/components/api/server/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/components/store/authStore";
+import { AxiosError } from "axios";
 
-const page = () => {
+const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const { mutate, status, error } = useUserLogin();
@@ -27,7 +28,7 @@ const page = () => {
     }
   });
 
-  const handleSignIn = (data: any) => {
+  const handleSignIn = (data: LoginData) => {
     mutate(data, {
       onSuccess: (response) => {
         toast.success(response.data?.message || "Login successful-!");
@@ -36,8 +37,10 @@ const page = () => {
         router.push('/')
         
       },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || "Login failed. Please try again.");
+      onError: (error: Error) => {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data?.message || "Login failed. Please try again.");
+        }
       }
     });
   };
@@ -105,7 +108,7 @@ const page = () => {
             {status === 'pending' ? 'Signing In...' : 'Sign In'}
           </button>
 
-          {error && <p className="text-red-600 text-sm mt-4 text-center">{(error as any).response?.data?.message || "An error occurred"}</p>}
+          {error && <p className="text-red-600 text-sm mt-4 text-center">{(error as Error & { response?: { data?: { message?: string } } }).response?.data?.message || "An error occurred"}</p>}
 
           <div className="flex items-center gap-2 text-sm justify-center">
             <p className="text-black">New To our Platform ? </p>
@@ -120,4 +123,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

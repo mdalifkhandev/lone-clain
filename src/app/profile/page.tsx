@@ -41,23 +41,31 @@ const profileLinks: ProfileLink[] = [
     }
 ];
 
-interface PersonalInfo {
-    firstName?: string;
-    lastName?: string;
-}
+// interface PersonalInfo {
+//     firstName?: string;
+//     lastName?: string;
+// }
+// interface ContactInfo {
+//     email?: string;
+//     phone?: string;
+// }
+// interface FinancialInfo {
+//     income?: string;
+//     expenses?: string;
+// }
 
-interface ProfileData {
-    personalInfo?: PersonalInfo;
-    contactInfo?: any;
-    financialInfo?: any;
-}
+// interface ProfileData {
+//     personalInfo?: PersonalInfo;
+//     contactInfo?: ContactInfo;
+//     financialInfo?: FinancialInfo;
+// }
 
 
 
 const ProfileLayout = () => {
     const router = useRouter();
     const [activeComponent, setActiveComponent] = useState('personal-info');
-    const { user, isLoggedIn } = useAuthStore();
+    const { user } = useAuthStore();
 
   
 

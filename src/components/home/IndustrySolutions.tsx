@@ -37,7 +37,7 @@ const IndustrySolution = () => {
         <div className="p-5 border border-gray-300 rounded-lg shadow space-y-2 bg-red-950 text-gray-300">
           <h2 className="text-md font-semibold">Need a Custom Solution?</h2>
           <p className="text-sm">
-            Don't see your industry? We offer customized lending solutions
+            Don&apos;t see your industry? We offer customized lending solutions
             tailored to your specific business needs.
           </p>
           <button className="text-sm bg-gray-300 px-3 flex justify-between items-center gap-2 py-1 rounded-sm cursor-pointer text-gray-700">

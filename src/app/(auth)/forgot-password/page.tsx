@@ -10,6 +10,7 @@ import { useForgatePasswordSendMail, useForgatePasswordVerifyOtp, useForgateRese
 import { toast } from "react-toastify";
 import { EmailData, ResetPasswordData } from "@/components/interface";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 
 const ResetPassword = () => {
@@ -21,10 +22,10 @@ const ResetPassword = () => {
 
     const { mutate, status } = useForgatePasswordSendMail();
     const { mutate: verifyOtp, status: verifyStatus } = useForgatePasswordVerifyOtp();
-    const { mutate: resetPassword, status: resetStatus } = useForgateResetPassword();
+    const { mutate: resetPassword } = useForgateResetPassword();
 
     const { register, handleSubmit, formState: { errors } } = useForm<EmailData>();
-    const { register: registerOtp, handleSubmit: handleSubmitOtp, formState: { errors: errorsOtp }, getValues: getOtpValues, setValue: setOtpValue } = useForm();
+    const { register: registerOtp, handleSubmit: handleSubmitOtp,  getValues: getOtpValues, setValue: setOtpValue } = useForm();
     const { register: registerPassword, handleSubmit: handleSubmitPassword, formState: { errors: errorsPassword }, getValues: getPasswordValues } = useForm<ResetPasswordData>();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -39,10 +40,12 @@ const ResetPassword = () => {
                 setEmail(data.email); // Store the email from the form data
                 setSendOTP(true);
                 console.log(response);
-                
+
             },
-            onError: (error: any) => {
-                toast.error(error.response?.data?.message || "Failed to send OTP. Please try again.");
+            onError: (error: Error) => {
+                if (error instanceof AxiosError) {
+                    toast.error(error.response?.data?.message || "Failed to send OTP. Please try again.");
+                }
             }
         });
     };
@@ -59,8 +62,10 @@ const ResetPassword = () => {
                 toast.success(response.data?.message || "OTP verified successfully!");
                 setShowResetPasswordSection(true);
             },
-            onError: (error: any) => {
-                toast.error(error.response?.data?.message || "Failed to verify OTP. Please try again.");
+            onError: (error: Error) => {
+                if (error instanceof AxiosError) {
+                    toast.error(error.response?.data?.message || "Failed to verify OTP. Please try again.");
+                }
             }
         });
     };
@@ -75,8 +80,10 @@ const ResetPassword = () => {
                 toast.success(response.data?.message || "Password reset successfully!");
                 router.push('/login');
             },
-            onError: (error: any) => {
-                toast.error(error.response?.data?.message || "Failed to reset password. Please try again.");
+            onError: (error: Error) => {
+                if (error instanceof AxiosError) {
+                    toast.error(error.response?.data?.message || "Failed to reset password. Please try again.");
+                }
             }
         });
     };
@@ -155,7 +162,9 @@ const ResetPassword = () => {
                                         {...registerOtp(`otp${index}`, { required: true })}
                                         onChange={(e) => handleOtpChange(e, index)}
                                         onKeyDown={(e) => handleKeyDown(e, index)}
-                                        ref={(el:any) => (otpInputsRef.current[index] = el)}
+                                        ref={(el)=>{
+                                            otpInputsRef.current[index] = el;
+                                        }}
                                     />
                                 ))}
                             </div>

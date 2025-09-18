@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
-  const { user, isLoggedIn } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const pathname = usePathname();
 
   const handleMenuClick = () => {
