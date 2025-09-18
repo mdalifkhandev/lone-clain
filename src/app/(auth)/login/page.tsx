@@ -1,73 +1,123 @@
+'use client';
 
+import { FaEnvelope } from "react-icons/fa";
+import { useForm } from 'react-hook-form';
+import { LoginData } from "@/components/interface";
+import FormInput from "@/components/custom/FromInput";
+import { useState } from "react";
+import Link from "next/link";
+import { FaLock } from "react-icons/fa"; // Added FaLock icon
+import { useUserLogin } from "@/components/api/server/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/components/store/authStore";
 
 const page = () => {
-    
-    return (
-         <div className="bg-gray-100 min-h-screen flex items-center justify-center px-5">
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const { mutate, status, error } = useUserLogin();
+  const router = useRouter()
+  const { login } = useAuthStore()
+
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginData>({
+    defaultValues: {
+      email: '',
+      password: '',
+      remember: false, // Added the 'remember' field
+    }
+  });
+
+  const handleSignIn = (data: any) => {
+    mutate(data, {
+      onSuccess: (response) => {
+        toast.success(response.data?.message || "Login successful-!");
+        const data = response.data.data;
+        login(data.accessToken, data.user);
+        router.push('/')
+        
+      },
+      onError: (error: any) => {
+        toast.error(error.response?.data?.message || "Login failed. Please try again.");
+      }
+    });
+  };
+
+  return (
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center px-5">
       <div className="w-full md:w-[60%] lg:w-[40%] border border-gray-300 rounded-md bg-white shadow-xl p-4 md:p-8 lg:p-5">
         <h1 className="text-center text-red-950 font-semibold text-xl">
           Welcome Back
         </h1>
-        <form /*onSubmit={handleSignIn}*/ className="space-y-3">
-          <div>
-            <label className="text-sm font-semibold text-red-900">Email</label>
-            <div className="relative">
-              <input
-                type="email"
-                name="email"
-                className="w-full appearance-none outline-none border border-gray-200 rounded-sm py-1 px-4 pl-8 text-sm font-medium"
-                placeholder="Enter your email"
-              />
-              
-            </div>
-          </div>
-          <div className="relative">
-            <label className="text-sm font-semibold text-red-900">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                
-                name="password"
-                className="w-full appearance-none outline-none border border-gray-200 rounded-sm py-1 px-4 pl-8 text-sm font-medium"
-                placeholder="Enter your password"
-              />
-             
-            </div>
-            <p
-             
-              className="absolute right-2 top-[32px] cursor-pointer"
-            >
-              
-            </p>
-          </div>
-          <div className="flex justify-between items-center">
+        <form onSubmit={handleSubmit(handleSignIn)} className="space-y-3">
+
+          <FormInput
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            IconComponent={FaEnvelope}
+            register={register}
+            errors={errors}
+            rules={{ required: "Email is required" }}
+          />
+
+          <FormInput
+            label="Password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            IconComponent={FaLock}
+            register={register}
+            errors={errors}
+            rules={{
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters"
+              }
+            }}
+            showPassword={showPassword}
+            togglePasswordVisibility={togglePasswordVisibility}
+          />
+
+          <div className="flex items-center justify-between mt-4">
             <div className="flex items-center">
               <input
                 type="checkbox"
-                name="terms"
-                className="mr-2 leading-tight"
+                id="remember"
+                {...register("remember")} // Added register here
+                className="mr-2 h-4 w-4 text-red-950 focus:ring-red-950 border-gray-300 rounded"
               />
-              <label className="text-sm font-medium text-gray-500">
-                Remember me
-              </label>
+              <label htmlFor="remember" className="text-sm text-gray-700">Remember me</label>
             </div>
-            
+            <Link href="/forgot-password">
+              <p className="text-sm text-red-950 hover:underline cursor-pointer">
+                Forgot password?
+              </p>
+            </Link>
           </div>
+
           <button
             type="submit"
-            className="w-full bg-red-950 text-white text-sm  py-2 rounded-sm cursor-pointer"
+            disabled={status === 'pending'} // Added disabled prop
+            className={`w-full bg-red-950 text-white text-sm py-2 rounded-sm cursor-pointer ${status === 'pending' ? 'opacity-50' : ''}`}
           >
-            Sign In
+            {status === 'pending' ? 'Signing In...' : 'Sign In'}
           </button>
+
+          {error && <p className="text-red-600 text-sm mt-4 text-center">{(error as any).response?.data?.message || "An error occurred"}</p>}
+
           <div className="flex items-center gap-2 text-sm justify-center">
-            <p>New To our Platform?</p>
-            
+            <p className="text-black">New To our Platform ? </p>
+            <Link href="/signup" className="text-red-950 font-semibold">
+              Sign Up Here
+            </Link>
           </div>
+
         </form>
       </div>
     </div>
-    );
+  );
 };
 
 export default page;
