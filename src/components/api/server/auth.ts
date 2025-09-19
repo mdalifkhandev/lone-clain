@@ -1,4 +1,4 @@
-import { FormData, LoginData } from "@/components/interface";
+import { FormData, LoginData, UpdathPassword } from "@/components/interface";
 import clientAPI from "@/components/api/lib/apiClient"
 import { useMutation } from "@tanstack/react-query"
 
@@ -15,6 +15,15 @@ export const useUserLogin = () => {
     return useMutation({
         mutationFn: async (data:LoginData) => {
             const response = await clientAPI.post('/auth/login', data);
+            return response;
+        }
+    })
+}
+
+export const useUpdatePassword = () => {
+    return useMutation({
+        mutationFn:async(data:UpdathPassword)=>{
+            const response = await clientAPI.post('/auth/update-password',data)
             return response;
         }
     })

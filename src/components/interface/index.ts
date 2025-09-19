@@ -28,3 +28,8 @@ export interface ResetPasswordData {
     newPassword: string;
     confirmPassword: string;
 }
+export type UpdathPassword = {
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+}

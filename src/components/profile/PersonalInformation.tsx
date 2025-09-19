@@ -4,71 +4,58 @@ import React, { useState } from "react";
 import { MdOutlineEditNote } from "react-icons/md";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "../custom/FromInput";
-import { useGetUser } from "../api/server/user";
+import { useGetUser, useUpdateAndCreateProfile } from "../api/server/user";
+import { useGetSingleProfile } from "../api/server/profileApi";
+import { toast } from "react-toastify";
 
-// interface PersonalInfo {
-//   firstName?: string;
-//   lastName?: string;
-// }
-
-// interface ContactInfo {
-//   address?: string;
-//   city?: string;
-//   state?: string;
-//   zipCode?: string;
-// }
-
-// interface ProfileData {
-//   phone?: string;
-//   personalInfo?: PersonalInfo;
-//   contactInfo?: ContactInfo;
-// }
-
-// interface User {
-//   _id: string;
-//   email: string;
-// }
 
 interface IFormInput {
-  'first-name': string;
-  'last-name': string;
-  email: string;
-  phone: string;
-  street: string;
-  city: string;
-  state: string;
-  zip: string;
+  firstName?: string,
+  lastName?: string,
+  address?: string,
+  city?: string,
+  state?: string,
+  zipCode?: string
+  email?: string
+  phone?: string
 }
 
-// const fetcher = (url: string) => axios.get(url).then(res => res.data.data);
 
 const PersonalInformation = () => {
-  // const { user, isLoggedIn } = useAuthStore();
   const [updateProfile, setUpdateProfile] = useState<boolean>(false);
-  const {data:userData}=useGetUser()
-  const userLoginData=userData?.data.data
-  
-
- 
-
+  const { data: userData } = useGetUser()
+  const userLoginData = userData?.data.data
+  const { data } = useGetSingleProfile(userLoginData?._id)
+  const { mutate,  } = useUpdateAndCreateProfile()
+  const profileData=data?.data.data
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-  const handleUpdateProfile: SubmitHandler<IFormInput> = async () => {
-    // const updatedProfile: ProfileData = {
-    //   phone: data.phone,
-    //   personalInfo: {
-    //     firstName: data['first-name'],
-    //     lastName: data['last-name'],
-    //   },
-    //   contactInfo: {
-    //     address: data.street,
-    //     city: data.city,
-    //     state: data.state,
-    //     zipCode: data.zip,
-    //   },
-    // };
 
-  
+
+  const handleUpdateProfile: SubmitHandler<IFormInput> = async (data) => {
+    const contactInfo = {
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      zipCode: data.zipCode
+    }
+    const parsonalInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName
+    }
+    const newData = {
+      contactInfo,
+      parsonalInfo,
+      userId: userLoginData._id
+    }
+    mutate(newData, {
+      onSuccess: (response) => {
+        toast.success(response.data.message)
+      },
+      onError: (err) => {
+        console.log(err);
+      }
+    })
   };
 
   return (
@@ -79,7 +66,7 @@ const PersonalInformation = () => {
           onClick={() => setUpdateProfile(true)}
           className={`${updateProfile ? "hidden" : "block"} text-sm text-black font-semibold cursor-pointer flex items-center gap-1`}
         >
-          <MdOutlineEditNote size={25}/>Update Profile
+          <MdOutlineEditNote size={25} />Update Profile
         </button>
       </div>
       <form onSubmit={handleSubmit(handleUpdateProfile)} className='mt-5 md:space-y-3 space-y-1'>
@@ -87,9 +74,9 @@ const PersonalInformation = () => {
           <div className='w-full md:w-1/2'>
             <FormInput
               label="First Name"
-              name="first-name"
+              name="firstName"
               type="text"
-              defaultValue={  ""}
+              defaultValue={profileData?.parsonalInfo?.firstName || ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -99,9 +86,9 @@ const PersonalInformation = () => {
           <div className='w-full md:w-1/2'>
             <FormInput
               label="Last Name"
-              name="last-name"
+              name="lastName"
               type="text"
-              defaultValue={ ""}
+              defaultValue={profileData?.parsonalInfo?.lastName||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -140,9 +127,9 @@ const PersonalInformation = () => {
         <div className='w-full'>
           <FormInput
             label="Street Address"
-            name="street"
+            name="address"
             type="text"
-            defaultValue={ ""}
+            defaultValue={profileData?.contactInfo?.address||""}
             disabled={!updateProfile}
             errors={errors}
             register={register}
@@ -156,7 +143,7 @@ const PersonalInformation = () => {
               label="City"
               name="city"
               type="text"
-              defaultValue={ ""}
+              defaultValue={profileData?.contactInfo?.city||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -169,7 +156,7 @@ const PersonalInformation = () => {
               label="State"
               name="state"
               type="text"
-              defaultValue={ ""}
+              defaultValue={profileData?.contactInfo?.state||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -180,9 +167,9 @@ const PersonalInformation = () => {
           <div>
             <FormInput
               label="ZIP Code"
-              name="zip"
+              name="zipCode"
               type="text"
-              defaultValue={ ""}
+              defaultValue={profileData?.contactInfo?.zipCode||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}

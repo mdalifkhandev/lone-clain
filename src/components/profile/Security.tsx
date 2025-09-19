@@ -2,120 +2,139 @@
 
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import axios from "axios";
-import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
+import { useUpdatePassword } from "../api/server/auth";
+import { UpdathPassword } from "../interface";
+import { AxiosError } from "axios";
 
-// 1. Define the TypeScript interfaces
-// interface User {
-//   _id?: string;
-//   email: string;
-// }
 
-interface PasswordUpdateData {
-  email: string;
-  currentPassword?: FormDataEntryValue | null;
-  newPassword?: FormDataEntryValue | null;
-  confirmNewPassword?: FormDataEntryValue | null;
-}
+const getStringValue = (value: FormDataEntryValue | null): string => {
+  return value ? (typeof value === 'string' ? value : value.name || '') : '';
+};
 
-const Security = () => {
+
+const Security: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState<boolean>(false);
 
-  // 2. Use a state management store for authentication
-  const { user } = useAuthStore();
-  const email = user?.email;
+  const { mutate, status, } = useUpdatePassword();
 
   const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+
     const form = new FormData(e.currentTarget);
-    const currentPassword = form.get("current-password");
-    const newPassword = form.get("new-password");
-    const confirmNewPassword = form.get("confirm-new-password");
+
+
+    const currentPassword = getStringValue(form.get("currentPassword"));
+    const newPassword = getStringValue(form.get("newPassword"));
+    const confirmNewPassword = getStringValue(form.get("confirmNewPassword"));
+
+
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      return toast.error("All password fields are required.");
+    }
 
     if (newPassword !== confirmNewPassword) {
       return toast.error("New password and confirm new password do not match.");
     }
-    
-    if(!currentPassword || !newPassword || !confirmNewPassword){
-        return toast.error("All password fields are required.");
-    }
 
-    const newUpdatedPassword: PasswordUpdateData = {
-      email: email as string,
-      currentPassword,
-      newPassword,
+    const newUpdatedPassword: UpdathPassword = {
       confirmNewPassword,
+      currentPassword,
+      newPassword
     };
 
-    try {
-      const response = await axios.patch("/api/v1/user/security", newUpdatedPassword);
-      toast.success(response.data?.message);
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      toast.error(err?.response?.data?.message || "Failed to change password.");
-    }
+    mutate(newUpdatedPassword, {
+      onSuccess: (response) => {
+        toast.success(response?.data?.message);
+        return
+      },
+      onError: (err: Error) => {
+        if (err instanceof AxiosError) {
+          const errorMessage = (err)?.response?.data?.message || "Failed to change password. Please try-again.";
+          toast.error(errorMessage);
+          return
+        }
+        return
+      }
+    });
   };
+
+  const isSaving = status === 'pending';
 
   return (
     <div>
       <div className="flex justify-between items-center py-2 bg-gray-200 px-5 rounded-sm">
-        <p className="font-semibold text-md">Security</p>
+        <p className="font-semibold text-md text-black">Security</p>
       </div>
       <form onSubmit={handleChangePassword} className="mt-5 md:space-y-3 space-y-1 md:px-10">
+
         <div className="relative">
-          <label className="text-sm font-semibold text-red-950">Current Password</label>
+          <label htmlFor="currentPassword" className="text-sm font-semibold text-red-950">Current Password</label>
           <input
+            id="currentPassword"
             type={showPassword ? "text" : "password"}
-            name="current-password"
-            className="w-full appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
+            name="currentPassword"
+            className="w-full text-black appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
             placeholder="....................."
             required
+            disabled={isSaving}
           />
           <span
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-2 top-[37px] cursor-pointer"
+            className="absolute text-black right-2 top-[37px] cursor-pointer p-1"
           >
-            {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+            {showPassword ? <AiOutlineEye className="w-5 h-5" /> : <AiOutlineEyeInvisible className="w-5 h-5" />}
           </span>
         </div>
+
         <div className="relative">
-          <label className="text-sm font-semibold text-red-950">New Password</label>
+          <label htmlFor="newPassword" className="text-sm font-semibold text-red-950">New Password</label>
           <input
+            id="newPassword"
             type={showNewPassword ? "text" : "password"}
-            name="new-password"
-            className="w-full appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
+            name="newPassword"
+            className="w-full text-black appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
             placeholder="....................."
             required
+            disabled={isSaving}
           />
           <span
             onClick={() => setShowNewPassword(!showNewPassword)}
-            className="absolute right-2 top-[37px] cursor-pointer"
+            className="absolute text-black right-2 top-[37px] cursor-pointer p-1"
           >
-            {showNewPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+            {showNewPassword ? <AiOutlineEye className="w-5 h-5" /> : <AiOutlineEyeInvisible className="w-5 h-5" />}
           </span>
         </div>
+
         <div className="relative">
-          <label className="text-sm font-semibold text-red-900">Confirm New Password</label>
+          <label htmlFor="confirmNewPassword" className="text-sm font-semibold text-red-900">Confirm New Password</label>
           <input
+            id="confirmNewPassword"
             type={showConfirmNewPassword ? "text" : "password"}
-            name="confirm-new-password"
-            className="w-full appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
+            name="confirmNewPassword"
+            className="w-full text-black appearance-none outline-none border border-gray-200 rounded-sm py-2 px-4 text-sm font-medium"
             placeholder="....................."
             required
+            disabled={isSaving}
           />
           <span
             onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
-            className="absolute right-2 top-[37px] cursor-pointer"
+            className="absolute text-black right-2 top-[37px] cursor-pointer p-1"
           >
-            {showConfirmNewPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+            {showConfirmNewPassword ? <AiOutlineEye className="w-5 h-5" /> : <AiOutlineEyeInvisible className="w-5 h-5" />}
           </span>
         </div>
-        <div className="flex justify-center items-center mt-4 md:mt-0">
-          <button className="cursor-pointer bg-red-950 px-3 rounded-sm py-2 text-gray-200 text-sm font-semibold">
-            Save Changes
+
+        <div className="flex justify-center items-center pt-4 md:pt-0">
+          <button
+            type="submit"
+            className="cursor-pointer bg-red-950 px-3 rounded-sm py-2 text-gray-200 text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>
