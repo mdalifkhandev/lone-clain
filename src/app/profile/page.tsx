@@ -65,12 +65,12 @@ const profileLinks: ProfileLink[] = [
 const ProfileLayout = () => {
     const router = useRouter();
     const [activeComponent, setActiveComponent] = useState('personal-info');
-    const { user } = useAuthStore();
+    const { user ,logout} = useAuthStore();
 
   
 
     const handleSignOut = () => {
-        // signOut();
+        logout();
         router.push('/');
     };
 

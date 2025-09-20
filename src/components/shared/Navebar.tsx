@@ -33,6 +33,9 @@ const Navbar = () => {
             <li>
               <Link href="/about" className={pathname === '/about' ? 'font-bold text-black' : ''}>About</Link>
             </li>
+            <li>
+              <Link href="/client" className={pathname === '/client' ? 'font-bold text-black' : ''}>Client</Link>
+            </li>
           </ul>
         </div>
         
@@ -59,7 +62,7 @@ const Navbar = () => {
 
         {/* Responsive Menu Button */}
         <button className="cursor-pointer md:hidden" onClick={() => setMenu(!menu)}>
-          <RiMenu2Line size={20} />
+          <RiMenu2Line size={20} className="text-black" />
         </button>
       </div>
 
@@ -72,6 +75,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/about" onClick={handleMenuClick}>About</Link>
+            </li>
+            <li>
+              <Link href="/client" onClick={handleMenuClick}>Client</Link>
             </li>
             {isLoggedIn ? (
               <li className="mt-2">
