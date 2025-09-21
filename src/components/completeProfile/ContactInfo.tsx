@@ -10,6 +10,7 @@ interface ContactInfoProps {
   step: number;
   setStep: (step: number) => void;
   setContactInfo: (data: contactInfo) => void;
+  contact:contactInfo
 }
 
 
@@ -18,6 +19,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
   step,
   setStep,
   setContactInfo,
+  contact
 }) => {
   const { register, handleSubmit, formState: { errors,isValid } } = useForm<contactInfo>()
   const handleContactInfo: SubmitHandler<contactInfo> = (data) => {
@@ -25,7 +27,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
       address: data.address,
       city: data.city,
       state: data.state,
-      zipCode: data.ZipCode,
+      zipCode: data.zipCode,
     };
     setStep(step + 1);
     setContactInfo(contactInfo);
@@ -45,6 +47,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
             name="address"
             type="text"
             label="Address"
+            defaultValue={contact?.address||''}
             errors={errors}
             register={register}
             IconComponent={()=><></>}
@@ -58,6 +61,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
             name="city"
             label="City"
             type="text"
+            defaultValue={contact?.city||''}
             errors={errors}
             register={register}
             IconComponent={()=><></>}
@@ -69,6 +73,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
             name="state"
             label="State"
             type="text"
+            defaultValue={contact?.state||''}
             errors={errors}
             register={register}
             IconComponent={()=><></>}
@@ -77,9 +82,10 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
           </div>
           <div>
             <FormInput
-              name="ZipCode"
+              name="zipCode"
               label="Zip Code"
               type="number"
+              defaultValue={contact?.zipCode||''}
               errors={errors}
               register={register}
               IconComponent={()=><></>}

@@ -9,11 +9,13 @@ import { FormData } from '@/components/interface';
 import { useUserRegister } from '@/components/api/server/auth';
 import FormInput from '@/components/custom/FromInput';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { mutate, status } = useUserRegister();
+  const router=useRouter()
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
@@ -37,6 +39,7 @@ const SignupPage = () => {
     mutate(data, {
       onSuccess: () => {
         toast.success("Registration successful!");
+        router.push('/login')
       },
       onError: (err) => {
         if (err instanceof AxiosError) {

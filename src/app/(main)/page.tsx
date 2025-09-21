@@ -16,11 +16,6 @@ export default async function Home() {
       <IndustrySolution/>
       <CreditLimit/>
       <HowItWorks/>
-
-      {/* 
-            <HowItWorks></HowItWorks>
-   */}
-
     </div>
   );
 }

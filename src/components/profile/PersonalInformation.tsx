@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { MdOutlineEditNote } from "react-icons/md";
 import { useForm, SubmitHandler } from "react-hook-form";
 import FormInput from "../custom/FromInput";
-import { useGetUser, useUpdateAndCreateProfile } from "../api/server/user";
-import { useGetSingleProfile } from "../api/server/profileApi";
+import { useGetUser } from "../api/server/user";
+import { useGetSingleProfile, useUpdateAndCreateProfile } from "../api/server/profileApi";
 import { toast } from "react-toastify";
 
 export const metadata={
@@ -33,7 +33,7 @@ const PersonalInformation = () => {
   const profileData=data?.data.data
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-
+console.log(profileData)
 
   const handleUpdateProfile: SubmitHandler<IFormInput> = async (data) => {
     const contactInfo = {
@@ -42,18 +42,19 @@ const PersonalInformation = () => {
       state: data.state,
       zipCode: data.zipCode
     }
-    const parsonalInfo = {
+    const personalInfo = {
       firstName: data.firstName,
       lastName: data.lastName
     }
     const newData = {
       contactInfo,
-      parsonalInfo,
+      personalInfo,
       userId: userLoginData._id
     }
     mutate(newData, {
       onSuccess: (response) => {
         toast.success(response.data.message)
+        setUpdateProfile(false)
       },
       onError: (err) => {
         console.log(err);
@@ -79,7 +80,7 @@ const PersonalInformation = () => {
               label="First Name"
               name="firstName"
               type="text"
-              defaultValue={profileData?.parsonalInfo?.firstName || ""}
+              defaultValue={profileData?.personalInfo?.firstName || ""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
@@ -91,7 +92,7 @@ const PersonalInformation = () => {
               label="Last Name"
               name="lastName"
               type="text"
-              defaultValue={profileData?.parsonalInfo?.lastName||""}
+              defaultValue={profileData?.personalInfo?.lastName||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}

@@ -6,6 +6,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 interface User {
   name: string;
   email: string;
+  _id:string
 }
 
 // Define the state and actions of your authentication store

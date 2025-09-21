@@ -24,7 +24,7 @@ const IndustrySolution = () => {
             key={solution.id}
             className="p-5 border border-gray-300 rounded-lg shadow space-y-2"
           >
-            <p className="text-red-900 text-2xl bg-gray-100 inline-block p-2 bg-gray-300 rounded-lg">
+            <p className="text-red-900 text-2xl inline-block p-2 bg-gray-300 rounded-lg">
               {/* Check if solution.icon exists and is a valid React component */}
               {solution.icon && <solution.icon />}
             </p>

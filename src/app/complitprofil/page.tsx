@@ -4,13 +4,24 @@ import React, { useState } from 'react';
 import PersonalInfo from '@/components/completeProfile/PersonalInfo';
 import ContactInfo from '@/components/completeProfile/ContactInfo';
 import FinancialInfo from '@/components/completeProfile/FinancialInfo';
-import { contactInfo, parsonalInfo } from '@/components/interface/profile';
+import { contactInfo, personalInfo,  } from '@/components/interface/profile';
+import { useAuthStore } from '@/components/store/authStore';
+import { useGetSingleProfile } from '@/components/api/server/profileApi';
 
     
 const CompleteProfile = () => {
     const [step, setStep] = useState<number>(1);
-    const [personalInfo, setPersonalInfo] = useState<parsonalInfo | null>(null);
+    const [personalInfo, setPersonalInfo] = useState<personalInfo | null>(null);
     const [contactInfo, setContactInfo] = useState<contactInfo | null>(null);
+    const {user}=useAuthStore()
+    
+    const {data}=useGetSingleProfile(user?._id??'')
+    
+    const contact=data?.data.data.contactInfo
+    const personal=data?.data.data.personalInfo
+    const financial=data?.data.data.financialInfo
+    const userId=data?.data.data.userId
+    
 
     const steps = [
         { id: 1, label: "Personal" },
@@ -21,9 +32,9 @@ const CompleteProfile = () => {
     const renderStepComponent = () =>{
         
         switch (step) {
-            case 1: return <PersonalInfo step={step} setStep={setStep} setPersonalInfo={setPersonalInfo} />;
-            case 2: return <ContactInfo step={step} setStep={setStep} setContactInfo={setContactInfo} />;
-            case 3: return <FinancialInfo setStep={setStep} personalInfo={personalInfo} contactInfo={contactInfo} />;
+            case 1: return <PersonalInfo step={step} setStep={setStep} setPersonalInfo={setPersonalInfo} personal={personal} />;
+            case 2: return <ContactInfo step={step} setStep={setStep} setContactInfo={setContactInfo} contact={contact} />;
+            case 3: return <FinancialInfo setStep={setStep} personalInfo={personalInfo} contactInfo={contactInfo} financial={financial} userId={userId} />;
             case 4: return (
                 <div className="text-center p-8">
                     <h2 className="text-2xl font-semibold text-green-700 mb-4">Application Submitted!</h2>

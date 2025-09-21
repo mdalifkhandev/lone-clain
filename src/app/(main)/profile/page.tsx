@@ -10,7 +10,7 @@ import { useAuthStore } from '@/components/store/authStore';
 import PersonalInformation from '@/components/profile/PersonalInformation';
 import Security from '@/components/profile/Security';
 import LoanStatus from '@/components/profile/LoanStatus';
-import image from '../../components/assets/logo.png'
+import image from '@/components/assets/logo.png'
 
 interface ProfileLink {
     id: number;
@@ -40,33 +40,13 @@ const profileLinks: ProfileLink[] = [
     }
 ];
 
-// interface PersonalInfo {
-//     firstName?: string;
-//     lastName?: string;
-// }
-// interface ContactInfo {
-//     email?: string;
-//     phone?: string;
-// }
-// interface FinancialInfo {
-//     income?: string;
-//     expenses?: string;
-// }
-
-// interface ProfileData {
-//     personalInfo?: PersonalInfo;
-//     contactInfo?: ContactInfo;
-//     financialInfo?: FinancialInfo;
-// }
 
 
 
 const ProfileLayout = () => {
     const router = useRouter();
     const [activeComponent, setActiveComponent] = useState('personal-info');
-    const { user ,logout} = useAuthStore();
-
-  
+    const { user, logout } = useAuthStore();
 
     const handleSignOut = () => {
         logout();
@@ -86,7 +66,7 @@ const ProfileLayout = () => {
         }
     };
 
-   
+
     return (
         <div className='bg-gray-100 min-h-screen py-6 md:py-8 lg:py-10 px-3 md:px-16 lg:px-20'>
             <div className='mb-6 md:mb-8 lg:mb-10'>
@@ -104,7 +84,7 @@ const ProfileLayout = () => {
                             height={48}
                         />
                         <div>
-                            <h2 className='text-xl text-black font-semibold'>{`${'User'} ${ ''}`}</h2>
+                            <h2 className='text-xl text-black font-semibold'>{`${'User'} ${''}`}</h2>
                             <p className='text-gray-700 text-sm'>{user?.email}</p>
                         </div>
                     </div>

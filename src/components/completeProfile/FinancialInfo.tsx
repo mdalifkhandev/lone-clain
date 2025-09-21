@@ -2,35 +2,45 @@
 
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { contactInfo, finalcialInfo, parsonalInfo } from "../interface/profile";
+import { contactInfo, financialInfo, personalInfo, profileInfo } from "../interface/profile";
 import FormInput from "../custom/FromInput";
+import { useUpdateAndCreateProfile } from "../api/server/profileApi";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 interface FinancialInfoProps {
-  personalInfo: parsonalInfo | null;
-  contactInfo: contactInfo | null;
-  setStep: React.Dispatch<React.SetStateAction<number>>;
+    personalInfo: personalInfo | null;
+    contactInfo: contactInfo | null;
+    setStep: React.Dispatch<React.SetStateAction<number>>;
+    financial: financialInfo
+    userId: string
 }
 
 const FinancialInfo: React.FC<FinancialInfoProps> = ({
     setStep,
     personalInfo,
     contactInfo,
+    financial,
+    userId
 }) => {
-    const { 
-        register, 
-        handleSubmit, 
-        formState: { errors, isValid }, 
-        watch, 
-        setValue, 
-    } = useForm<finalcialInfo>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+        watch,
+        setValue,
+    } = useForm<financialInfo>({
         mode: "onChange",
         defaultValues: {
-            existingLoan: "no", 
+            existingLoan: "no",
         }
     });
 
 
     const existingLoan = watch("existingLoan");
+    const { mutate } = useUpdateAndCreateProfile()
+    const router = useRouter()
 
 
     useEffect(() => {
@@ -39,7 +49,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
         }
     }, [existingLoan, setValue]);
 
-    const handleApplicationSubmit: SubmitHandler<finalcialInfo> = (data) => {
+    const handleApplicationSubmit: SubmitHandler<financialInfo> = (data) => {
         const financialInfo = {
             annualIncome: data.annualIncome,
             valueOfLandOwnership: data.valueOfLandOwnership,
@@ -50,8 +60,18 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
             existingLoan: data.existingLoan,
         };
 
-        const profileInfo = { personalInfo, contactInfo, financialInfo };
-        console.log(profileInfo);
+        const profileInfo = { personalInfo, contactInfo, financialInfo, userId };
+        mutate(profileInfo, {
+            onSuccess: (response) => {
+                toast.success(response.data.message)
+                router.push('/client')
+            },
+            onError: (error: Error) => {
+                if (error instanceof AxiosError) {
+                    toast.error(error.response?.data?.message || "User Update Faild");
+                }
+            }
+        })
     };
 
     return (
@@ -69,6 +89,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             name="annualIncome"
                             type="number"
                             label="Annual Income (FCFA)"
+                            defaultValue={financial?.annualIncome ? String(financial?.annualIncome) : ""}
                             errors={errors}
                             register={register}
                             IconComponent={() => <></>}
@@ -80,6 +101,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             name="valueOfLandOwnership"
                             type="number"
                             label=" Value of land ownership (FCFA)"
+                            defaultValue={financial?.valueOfLandOwnership ? String(financial?.valueOfLandOwnership) : ""}
                             errors={errors}
                             register={register}
                             IconComponent={() => <></>}
@@ -94,6 +116,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             name="electricityBill"
                             type="number"
                             label="Electricity bill (FCFA)"
+                            defaultValue={financial?.electricityBill ? String(financial?.electricityBill) : ""}
                             errors={errors}
                             register={register}
                             IconComponent={() => <></>}
@@ -105,6 +128,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             name="mobileMoneyBalance"
                             type="number"
                             label="Mobile money balance (FCFA)"
+                            defaultValue={financial?.mobileMoneyBalance ? String(financial?.mobileMoneyBalance) : ""}
                             errors={errors}
                             register={register}
                             IconComponent={() => <></>}
@@ -120,7 +144,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             <input
                                 {...register("existingLoan", { required: "Please select an option" })}
                                 type="radio"
-                                name="existingLoan" 
+                                name="existingLoan"
                                 value="yes"
                                 className="radio radio-sm accent-red-950"
                             />
@@ -145,6 +169,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                     <div className="w-full md:w-1/2 mt-2">
                         <FormInput
                             name="existingLoanAmount"
+                            defaultValue={financial?.existingLoanAmount ? String(financial?.existingLoanAmount) : ""}
                             type="number"
                             label="Enter Amount"
                             errors={errors}
@@ -154,8 +179,8 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                         />
                     </div>
                 )}
-                
- 
+
+
                 <div className="flex items-center mt-7">
                     <input
                         type="checkbox"

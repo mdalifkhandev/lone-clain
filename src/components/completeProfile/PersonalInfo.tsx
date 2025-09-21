@@ -3,25 +3,26 @@
 import React from "react";
 import FormInput from "../custom/FromInput";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { parsonalInfo } from "../interface/profile";
+import { personalInfo } from "../interface/profile";
 import { toast } from "react-toastify";
 
 
 type PersonalInfoProps = {
     step: number;
     setStep: React.Dispatch<React.SetStateAction<number>>;
-    setPersonalInfo: React.Dispatch<React.SetStateAction<parsonalInfo | null>>;
+    setPersonalInfo: React.Dispatch<React.SetStateAction<personalInfo | null>>;
+    personal:personalInfo
 };
 
-const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalInfo }) => {
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm<parsonalInfo>()
-    const handlePersonalInfo: SubmitHandler<parsonalInfo> = async (data) => {
+const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalInfo,personal }) => {
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm<personalInfo>()
+    const handlePersonalInfo: SubmitHandler<personalInfo> = async (data) => {
         const genderMatch = data.gender === 'other' || data.gender === 'female' || data.gender === 'male'
         if (!genderMatch) {
             toast.error('gender is required')
             throw new Error('gender is required')
         }
-        const personalInfo: parsonalInfo = {
+        const personalInfo: personalInfo = {
             firstName: data.firstName,
             lastName: data.lastName,
             dateOfBirth: data.dateOfBirth,
@@ -40,6 +41,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalI
                         <FormInput
                             name="firstName"
                             label="First Name"
+                            defaultValue={personal?.firstName||''}
                             type="text"
                             placeholder="Enter your first name"
                             IconComponent={() => <></>}
@@ -53,6 +55,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalI
                             name="lastName"
                             label="Last Name"
                             type="text"
+                            defaultValue={personal?.lastName||''}
                             placeholder="Enter your last name"
                             IconComponent={() => <></>}
                             errors={errors}
@@ -68,6 +71,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalI
                             name="dateOfBirth"
                             label="Date of Birth"
                             type="date"
+                            defaultValue={personal?.dateOfBirth||''}
                             placeholder="Enter your birth date"
                             IconComponent={() => <></>}
                             errors={errors}
@@ -79,6 +83,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ step, setStep, setPersonalI
                         <label className="text-sm font-bold mt-1.5 text-red-950 block">Gender</label>
                         <select
                             {...register("gender", { required: true })}
+                            defaultValue={personal?.lastName||''}
                             name="gender"
                             className="appearance-none px-4 py-2 outline-none border border-black w-full rounded-md text-[15px]"
                             required

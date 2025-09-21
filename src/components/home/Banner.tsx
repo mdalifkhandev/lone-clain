@@ -24,7 +24,7 @@ const Banner = () => {
             with trusted lenders for faster, more transparent lending decisions
             across multiple industries.
           </p>
-          <Link href="/get-started">
+          <Link href="/complitprofil">
             <button className="text-sm text-black bg-[#DBCBB9] px-3 flex justify-between items-center gap-2 py-1 rounded-sm cursor-pointer">
               Get Started as Client <FaLongArrowAltRight size={16} />
             </button>
