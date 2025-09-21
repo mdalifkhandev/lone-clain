@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Progress } from 'antd'; // Make sure to import Progress from antd
+import { Progress } from 'antd';
+import Link from 'next/link';
 
-// Type definitions for props
+
 interface CreditScoreProps {
     creditInfo?: {
         creditScore?: number;
@@ -21,7 +22,10 @@ const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingS
         <div>
             <div className='bg-gray-200 p-4 flex justify-between items-center rounded-t-sm'>
                 <h3 className='font-bold text-black'>Credit Score</h3>
-                <p className='text-sm text-gray-700'>Updated today</p>
+                <p className='text-sm text-gray-700'><Link href="/complirprofil" className="text-blue-600 underline hover:text-blue-800">
+                    Updated today
+                </Link>
+                </p>
             </div>
             <div className='px-4 py-10'>
                 <div className='flex justify-center'>

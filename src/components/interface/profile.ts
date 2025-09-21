@@ -1,6 +1,8 @@
 export interface parsonalInfo {
     firstName?: string,
     lastName?: string,
+    dateOfBirth?: string,
+    gender?: string,
 }
 
 export interface contactInfo {
@@ -11,20 +13,21 @@ export interface contactInfo {
 }
 
 export interface profileInfo {
-    parsonalInfo:parsonalInfo,
-    contactInfo:contactInfo,
-    userId:string
-}
-
-
-export interface finalcialInfo {
-    annualIncome?: number
-    valueOfLandOnership?: number
-    electrictiBill?: number
-    mobileManyBill?: number
+    parsonalInfo: parsonalInfo,
+    contactInfo: contactInfo,
+    userId: string
 }
 
 export interface User {
     _id: string;
     email: string;
 }
+export type finalcialInfo = {
+  annualIncome: string;
+  valueOfLandOwnership: string;
+  electricityBill: string;
+  mobileMoneyBalance: string;
+  existingLoanAmount: string | number;
+  terms: boolean;
+  existingLoan: string | null;
+};

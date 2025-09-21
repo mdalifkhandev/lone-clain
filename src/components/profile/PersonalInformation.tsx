@@ -8,6 +8,9 @@ import { useGetUser, useUpdateAndCreateProfile } from "../api/server/user";
 import { useGetSingleProfile } from "../api/server/profileApi";
 import { toast } from "react-toastify";
 
+export const metadata={
+    title:'Profile Account'
+}
 
 interface IFormInput {
   firstName?: string,

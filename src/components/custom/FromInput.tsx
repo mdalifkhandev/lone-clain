@@ -48,7 +48,7 @@ const FormInput = <TFormValues extends FieldValues>({
           id={name as string}
           type={isPasswordType && showPassword ? 'text' : type}
           {...register(name, rules)}
-          className="w-full appearance-none outline-none border rounded-md py-2 px-4 pl-10 pr-10 text-sm font-medium focus:ring-2 focus:ring-red-950 focus:border-red-950 transition-all text-gray-900 placeholder-gray-500"
+          className="w-full text-black appearance-none outline-none border rounded-md py-2 px-4 pl-10 pr-10 text-sm font-medium focus:ring-2 focus:ring-red-950 focus:border-red-950 transition-all placeholder-gray-500"
           placeholder={placeholder}
           defaultValue={defaultValue}
           disabled={disabled}

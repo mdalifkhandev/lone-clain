@@ -12,7 +12,6 @@ import Security from '@/components/profile/Security';
 import LoanStatus from '@/components/profile/LoanStatus';
 import image from '../../components/assets/logo.png'
 
-
 interface ProfileLink {
     id: number;
     title: string;
