@@ -2,14 +2,14 @@
 
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { finalcialInfo } from "../interface/profile";
+import { contactInfo, finalcialInfo, parsonalInfo } from "../interface/profile";
 import FormInput from "../custom/FromInput";
 
-type FinancialInfoProps = {
-    setStep: React.Dispatch<React.SetStateAction<number>>;
-    personalInfo: any;
-    contactInfo: any;
-};
+interface FinancialInfoProps {
+  personalInfo: parsonalInfo | null;
+  contactInfo: contactInfo | null;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+}
 
 const FinancialInfo: React.FC<FinancialInfoProps> = ({
     setStep,
@@ -20,19 +20,19 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
         register, 
         handleSubmit, 
         formState: { errors, isValid }, 
-        watch, // watch হুক ব্যবহার করে ফিল্ডের মান ট্র্যাক করুন
-        setValue, // setValue হুক ব্যবহার করে ফিল্ডের মান সেট করুন
+        watch, 
+        setValue, 
     } = useForm<finalcialInfo>({
         mode: "onChange",
         defaultValues: {
-            existingLoan: "no", // ডিফল্ট ভ্যালু "no" সেট করা
+            existingLoan: "no", 
         }
     });
 
-    // watch ব্যবহার করে existingLoan-এর বর্তমান মান ট্র্যাক করুন
+
     const existingLoan = watch("existingLoan");
 
-    // existingLoan-এর মান "no" হলে existingLoanAmount-কে 0 তে সেট করুন
+
     useEffect(() => {
         if (existingLoan === "no") {
             setValue("existingLoanAmount", 0);
@@ -113,7 +113,6 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                     </div>
                 </div>
 
-                {/* Existing Loan */}
                 <div className="flex items-center gap-7">
                     <label className="text-red-950 font-semibold">Existing Loan</label>
                     <div className="flex items-center gap-5">
@@ -121,7 +120,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             <input
                                 {...register("existingLoan", { required: "Please select an option" })}
                                 type="radio"
-                                name="existingLoan" // name attribute is "existingLoan"
+                                name="existingLoan" 
                                 value="yes"
                                 className="radio radio-sm accent-red-950"
                             />
@@ -131,7 +130,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                             <input
                                 {...register("existingLoan", { required: "Please select an option" })}
                                 type="radio"
-                                name="existingLoan" // name attribute is "existingLoan"
+                                name="existingLoan"
                                 value="no"
                                 className="radio radio-sm accent-red-950"
                             />
@@ -141,7 +140,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                 </div>
                 {errors.existingLoan && <span className="text-red-500 text-xs mt-1">{errors.existingLoan.message}</span>}
 
-                {/* Loan Amount */}
+
                 {existingLoan === "yes" && (
                     <div className="w-full md:w-1/2 mt-2">
                         <FormInput
@@ -156,7 +155,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                     </div>
                 )}
                 
-                {/* Terms */}
+ 
                 <div className="flex items-center mt-7">
                     <input
                         type="checkbox"
@@ -169,7 +168,7 @@ const FinancialInfo: React.FC<FinancialInfoProps> = ({
                 </div>
                 {errors.terms && <span className="text-red-500 text-xs mt-1">{errors.terms.message}</span>}
 
-                {/* Buttons */}
+
                 <div className="flex justify-between mt-5">
                     <button
                         type="button"

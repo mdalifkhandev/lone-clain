@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent } from "react";
+import React from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { contactInfo } from "../interface/profile";
 import { SubmitHandler, useForm } from "react-hook-form";

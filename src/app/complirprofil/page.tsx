@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import PersonalInfo from '@/components/completeProfile/PersonalInfo';
 import ContactInfo from '@/components/completeProfile/ContactInfo';
 import FinancialInfo from '@/components/completeProfile/FinancialInfo';
+import { contactInfo, parsonalInfo } from '@/components/interface/profile';
 
     
 const CompleteProfile = () => {
     const [step, setStep] = useState<number>(1);
-    const [personalInfo, setPersonalInfo] = useState<any | null>(null);
-    const [contactInfo, setContactInfo] = useState<any | null>(null);
+    const [personalInfo, setPersonalInfo] = useState<parsonalInfo | null>(null);
+    const [contactInfo, setContactInfo] = useState<contactInfo | null>(null);
 
     const steps = [
         { id: 1, label: "Personal" },
