@@ -7,7 +7,7 @@ import FormInput from "../custom/FromInput";
 import { useUpdateAndCreateProfile } from "../api/server/profileApi";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface FinancialInfoProps {
     personalInfo: personalInfo | null;

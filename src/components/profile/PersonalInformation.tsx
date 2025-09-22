@@ -85,6 +85,7 @@ console.log(profileData)
               errors={errors}
               register={register}
               IconComponent={() => <></>}
+              required={true}
             />
           </div>
           <div className='w-full md:w-1/2'>
@@ -97,6 +98,7 @@ console.log(profileData)
               errors={errors}
               register={register}
               IconComponent={() => <></>}
+              required={true}
             />
           </div>
         </div>
@@ -139,6 +141,7 @@ console.log(profileData)
             register={register}
             placeholder="12 street road"
             IconComponent={() => <></>}
+            required={true}
           />
         </div>
         <div className="grid md:grid-cols-3 gap-3 grid-cols-1">
@@ -153,6 +156,7 @@ console.log(profileData)
               register={register}
               placeholder="New York"
               IconComponent={() => <></>}
+              required={true}
             />
           </div>
           <div>
@@ -166,19 +170,21 @@ console.log(profileData)
               register={register}
               placeholder="NY"
               IconComponent={() => <></>}
+              required={true}
             />
           </div>
           <div>
             <FormInput
               label="ZIP Code"
               name="zipCode"
-              type="text"
+              type="number"
               defaultValue={profileData?.contactInfo?.zipCode||""}
               disabled={!updateProfile}
               errors={errors}
               register={register}
               placeholder="5010"
               IconComponent={() => <></>}
+              required={true}
             />
           </div>
         </div>

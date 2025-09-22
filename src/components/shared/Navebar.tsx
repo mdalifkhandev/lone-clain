@@ -33,9 +33,6 @@ const Navbar = () => {
             <li>
               <Link href="/about" className={pathname === '/about' ? 'font-bold text-black' : ''}>About</Link>
             </li>
-            <li>
-              <Link href="/client" className={pathname === '/client' ? 'font-bold text-black' : ''}>Client</Link>
-            </li>
           </ul>
         </div>
         

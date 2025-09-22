@@ -18,6 +18,7 @@ interface FormInputProps<TFormValues extends FieldValues> {
   defaultValue?: string;
   disabled?: boolean;
   readonly?: boolean;
+  required?: boolean;
 }
 
 const FormInput = <TFormValues extends FieldValues>({
@@ -33,6 +34,7 @@ const FormInput = <TFormValues extends FieldValues>({
   showPassword,
   disabled,
   readonly,
+  required,
   togglePasswordVisibility,
 }: FormInputProps<TFormValues>) => {
   const isPasswordType = name === 'password' || name === 'confirmPassword'||name === 'newPassword';
@@ -53,6 +55,7 @@ const FormInput = <TFormValues extends FieldValues>({
           defaultValue={defaultValue}
           disabled={disabled}
           readOnly={readonly}
+          required={required}
         />
         {isPasswordType && (
           <button
