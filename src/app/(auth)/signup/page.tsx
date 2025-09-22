@@ -1,4 +1,4 @@
-'use client'; // এটি নিশ্চিত করে যে এই ফাইলটি একটি ক্লায়েন্ট কম্পোনেন্ট
+'use client'; 
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -9,13 +9,13 @@ import { FormData } from '@/components/interface';
 import { useUserRegister } from '@/components/api/server/auth';
 import FormInput from '@/components/custom/FromInput';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { mutate, status } = useUserRegister();
-  const router=useRouter()
+  const router = useRouter();
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);

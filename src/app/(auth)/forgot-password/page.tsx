@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 
 import { useState, useRef, useEffect, ChangeEvent } from "react";
@@ -9,8 +9,8 @@ import FormInput from "@/components/custom/FromInput";
 import { useForgatePasswordSendMail, useForgatePasswordVerifyOtp, useForgateResetPassword } from "@/components/api/server/forgatepassword";
 import { toast } from "react-toastify";
 import { EmailData, ResetPasswordData } from "@/components/interface";
-import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 
 const ResetPassword = () => {

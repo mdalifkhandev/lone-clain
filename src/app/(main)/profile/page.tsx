@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { CiCreditCardOff, CiLock } from 'react-icons/ci';
 import { PiSignOutFill } from "react-icons/pi";
@@ -11,6 +10,7 @@ import PersonalInformation from '@/components/profile/PersonalInformation';
 import Security from '@/components/profile/Security';
 import LoanStatus from '@/components/profile/LoanStatus';
 import image from '@/components/assets/logo.png'
+import { useRouter } from 'next/navigation';
 
 interface ProfileLink {
     id: number;

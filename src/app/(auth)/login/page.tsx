@@ -9,9 +9,9 @@ import Link from "next/link";
 import { FaLock } from "react-icons/fa"; // Added FaLock icon
 import { useUserLogin } from "@/components/api/server/auth";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/components/store/authStore";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);

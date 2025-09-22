@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { contactInfo, financialInfo, personalInfo, profileInfo } from "../interface/profile";
+import { contactInfo, financialInfo, personalInfo } from "../interface/profile";
 import FormInput from "../custom/FromInput";
 import { useUpdateAndCreateProfile } from "../api/server/profileApi";
 import { toast } from "react-toastify";

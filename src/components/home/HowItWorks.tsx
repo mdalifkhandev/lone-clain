@@ -1,18 +1,9 @@
 'use client';
 
 import Link from "next/link";
-import useSWR from "swr";
-import { useAuthStore } from "../store/authStore";
 import howItWorksData from "../data/howItWorksData";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
-
 const HowItWorks = () => {
-  const { isLoggedIn } = useAuthStore();
-  const { data: profileInfo } = useSWR(isLoggedIn ? "/api/user-profile" : null, fetcher);
-
-  const buttonLink = isLoggedIn && profileInfo ? "/dashboard" : "/complete-profile";
-
   return (
     <div className="bg-gray-100 py-3 md:py-5 lg:py-7">
       <div className="my-7 md:my-12 lg:my-16 mx-5 md:mx-14 lg:mx-24">
