@@ -3,15 +3,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import logo from '@/components/assets/logo.png';
+import Main from "../dashboard/Main";
 
-const Home = () => <div>Home Content</div>;
-const Profile = () => <div>Profile Content</div>;
+
 const Settings = () => <div>Settings Content</div>;
 
 const sidebarItems = [
-    { label: "🏠 Home", component: Home },
-    { label: "👤 Profile", component: Profile },
-    { label: "⚙️ Settings", component: Settings },
+    { label: "Dashboard", component: Main },
+    { label: "Settings", component: Settings },
 ];
 
 const Sidebar = () => {
@@ -19,8 +18,10 @@ const Sidebar = () => {
     const ActiveComponent = sidebarItems[activeIndex].component;
 
     return (
-        <div className="flex h-screen text-black">
-            <aside className="w-64 h-screen bg-red-950 rounded-r-4xl text-white p-4">
+        <div className="flex">
+        
+            {/* সাইডবারের জন্য পরিবর্তিত কোড */}
+            <aside className="w-64 h-screen bg-red-950 rounded-r-4xl text-white p-4 fixed top-0 left-0">
                 <div className="flex justify-center mb-4">
                     <Image src={logo} alt="logo" className="bg-white p-2 rounded-2xl" />
                 </div>
@@ -29,11 +30,11 @@ const Sidebar = () => {
                         <li key={index} className="mb-2">
                             <button
                                 onClick={() => setActiveIndex(index)}
-                                 className={`
+                                className={`
                                     w-full text-left px-4 py-2 rounded-md
                                     ${activeIndex === index 
-                                        ? "bg-[#140d20] text-white font-bold" 
-                                        : "hover:bg-[#140d20] hover:text-white text-gray-200"
+                                        ? "bg-gray-900 text-white font-bold" 
+                                        : "hover:bg-gray-900 hover:text-white text-gray-200"
                                     }
                                     transition-colors duration-200
                                 `}
@@ -45,8 +46,8 @@ const Sidebar = () => {
                 </ul>
             </aside>
 
-            {/* Active Content */}
-            <main style={{ flex: 1, padding: 20, backgroundColor: '#f5f5f5' }}>
+            {/* মেইন কন্টেন্টের জন্য পরিবর্তিত কোড */}
+            <main className="ml-64 flex-1 p-5 bg-gray-100">
                 <ActiveComponent />
             </main>
         </div>
