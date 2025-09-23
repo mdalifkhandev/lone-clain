@@ -1,45 +1,9 @@
 import { TfiMoney } from "react-icons/tfi";
+import { getPersentage } from "../utils/getPersentage";
 
 
-const CreditLimits = () => {
-    // const {user} = useAuthContext();
-    // const {profileInfo} = useProfileInfo();
-    // const personalInfo = profileInfo?.data?.personalInfo;
-    // const contactInfo = profileInfo?.data?.contactInfo;
-    // const financialInfo = profileInfo?.data?.financialInfo;
-    // const axiosPublic = useAxiosPublic();
-    // console.log(creditInfo);
-
-    // const handleSubmitApplication = e =>{
-    //     e.preventDefault(0);
-    //     const form = new FormData(e.target);
-    //     const loanAmount = form.get("loan-amount");
-    //     const clientName = personalInfo?.firstName + " " + personalInfo?.lastName;
-    //     const lacation = `${contactInfo?.city}, ${contactInfo?.state}`
-    //     const clientInfo = {
-    //         status: "pending",
-    //         email: user?.email,
-    //         creditInfo: {
-    //             clientName, dateOfBirth: personalInfo?.dateOfBirth, phone: user?.phone, gender: personalInfo?.gender,
-    //         lacation
-    //         },
-    //         financialInfo: {
-    //             loanAmount: parseInt(loanAmount), annualIncome: financialInfo?.annualIncome, existingLoan: financialInfo?.existingLoan,
-    //             valueOfLandOwnership: financialInfo?.valueOfLandOwnership, mobileMoneyBalance: financialInfo?.mobileMoneyBalance, creditScore: creditInfo?.creditScore
-    //         }
-            
-
-    //     }
-    //     // console.log(clientInfo);
-    //     axiosPublic.post('/api/v1/creditRequest', {clientInfo})
-    //         .then(response =>{
-    //             toast.success(response?.data?.message);
-    //         })
-    //         .catch(error =>{
-    //             toast.error(error?.response?.data?.message);
-    //         })
-    // }
-    // console.log(fafcBalance);
+const CreditLimits = ({totalIncome}:{totalIncome:number}) => {
+    const totalIncomePersentage=getPersentage(100000,100,totalIncome)
     return (
         <div>
             <h3 className='bg-gray-200 p-4 font-bold rounded-t-sm text-black'>Suggest Credit Limit</h3>
@@ -48,8 +12,8 @@ const CreditLimits = () => {
                     <div className="bg-gray-100 p-3 rounded-full">
                         <TfiMoney className="text-red-950 bg-gray-100" size={25}></TfiMoney>
                     </div>
-                    <h4 className="text-md font-semibold text-black">FCFA 7500</h4>
-                    <p className="text-sm text-gray-700">Based on your credit score of 85/100</p>
+                    <h4 className="text-md font-semibold text-black">FCFA {totalIncome}</h4>
+                    <p className="text-sm text-gray-700">Based on your credit score of {totalIncomePersentage?.percentage}/{totalIncomePersentage?.numberOfPersentag}</p>
                 </div>
                 <div className="bg-gray-100 rounded-sm p-3 space-y-3 mt-7">
                     <h2 className="text-md font-semibold">Credit Limit Ranges</h2>

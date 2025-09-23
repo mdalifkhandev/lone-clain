@@ -2,29 +2,39 @@
 
 import React from 'react';
 import { Progress } from 'antd';
-import Link from 'next/link';
+import { getPersentage } from '../utils/getPersentage';
 
 
 interface CreditScoreProps {
     creditInfo?: {
         creditScore?: number;
         creditTag?: string;
+
     };
     factorsAffectingScore?: {
         annualIncome?: number;
         electricityBill?: number;
         mobileMoneyBalance?: number;
     };
+    updatedDate?: string;
 }
 
-const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingScore }) => {
+const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingScore, updatedDate }) => {
+    const annualIncome=getPersentage(100000,30,factorsAffectingScore?.annualIncome)
+    const electricityBill=getPersentage(5000,30,factorsAffectingScore?.electricityBill)
+    const mobileMoneyBalance=getPersentage(2000,30,factorsAffectingScore?.mobileMoneyBalance)
+    const today = new Date().toLocaleDateString()
+
+    console.log(annualIncome,electricityBill,mobileMoneyBalance);
+    
+
     return (
         <div>
             <div className='bg-gray-200 p-4 flex justify-between items-center rounded-t-sm'>
                 <h3 className='font-bold text-black'>Credit Score</h3>
-                <p className='text-sm text-gray-700'><Link href="/complirprofil" className="text-blue-600 underline hover:text-blue-800">
-                    Updated today
-                </Link>
+                <p className='text-sm text-gray-700'>
+                    Updated {updatedDate===today?"Today":updatedDate}
+
                 </p>
             </div>
             <div className='px-4 py-10'>
@@ -57,23 +67,23 @@ const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingS
                         <div>
                             <div className='flex items-center justify-between'>
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Annual Income (FCFA)</h3>
-                                <p className='text-sm text-gray-700'>{factorsAffectingScore?.annualIncome || 0}/30</p>
+                                <p className='text-sm text-gray-700'>{annualIncome?.percentage || 0}/{annualIncome?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={factorsAffectingScore?.annualIncome || 0} max="30"></progress>
+                            <progress className="progress w-full" value={annualIncome?.percentage || 0} max={annualIncome?.numberOfPersentag || 0}></progress>
                         </div>
                         <div>
                             <div className='flex items-center justify-between'>
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Electricity Bill (FCFA)</h3>
-                                <p className='text-sm text-gray-700'>{factorsAffectingScore?.electricityBill || 0}/30</p>
+                                <p className='text-sm text-gray-700'>{electricityBill?.percentage || 0}/{electricityBill?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={factorsAffectingScore?.electricityBill || 0} max="30"></progress>
+                            <progress className="progress w-full" value={electricityBill?.percentage || 0} max={electricityBill?.numberOfPersentag || 0}></progress>
                         </div>
                         <div>
                             <div className='flex items-center justify-between'>
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Mobile Money Balance (FCFA)</h3>
-                                <p className='text-sm text-gray-700'>{factorsAffectingScore?.mobileMoneyBalance || 0}/30</p>
+                                <p className='text-sm text-gray-700'>{mobileMoneyBalance?.percentage || 0}/{mobileMoneyBalance?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={factorsAffectingScore?.mobileMoneyBalance || 0} max="30"></progress>
+                            <progress className="progress w-full" value={mobileMoneyBalance?.percentage || 0} max={mobileMoneyBalance?.numberOfPersentag || 0}></progress>
                         </div>
                     </div>
                 </div>

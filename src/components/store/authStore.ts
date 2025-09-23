@@ -7,6 +7,7 @@ interface User {
   name: string;
   email: string;
   _id:string
+  role:string
 }
 
 // Define the state and actions of your authentication store

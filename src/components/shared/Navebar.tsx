@@ -10,8 +10,13 @@ import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
-  const { isLoggedIn } = useAuthStore();
+  const { user, isLoggedIn } = useAuthStore();
   const pathname = usePathname();
+  const first = user?.email ? user.email.charAt(0) : '';
+  const firstLetter = first.toUpperCase();
+
+  console.log(user);
+  
 
   const handleMenuClick = () => {
     setMenu(false);
@@ -23,7 +28,7 @@ const Navbar = () => {
         <Link href="/">
           <Image src={logo} alt="logo" width={80} height={40} />
         </Link>
-        
+
         {/* Desktop Menu */}
         <div className="hidden md:block">
           <ul className="flex gap-3 text-[15px] text-gray-600">
@@ -35,19 +40,42 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        
+
         {/* User/Auth Button */}
         <div className="md:block hidden">
           {isLoggedIn ? (
-            <Link href="/profile">
-              <Image 
-                src={ logo} 
-                alt="profile img" 
-                width={40} 
-                height={40}
-                className="w-10 h-10 rounded-full border border-blue-700" 
-              />
-            </Link>
+            <div className="dropdown dropdown-bottom">
+  <div
+    tabIndex={0}
+    role="button"
+    className="btn btn-circle bg-red-950 text-white text-2xl"
+  >
+    {firstLetter}
+  </div>
+  <ul
+    tabIndex={0}
+    className="dropdown-content menu bg-gray-200 text-black rounded-box z-1 w-24 p-2 shadow left-1/2 -translate-x-1/2 justify-center items-center"
+  >
+    <li>
+      <Link
+        href={user?.role==="user"?'/profile':"/home"}
+        className={`${pathname === '/profile' ? 'font-bold text-black' : ''} hover:bg-red-950 hover:text-white text-center`}
+      >
+        {user?.role==="user"?"Profile":"Dashboard"}
+      </Link>
+    </li>
+    <li>
+      <Link
+        href={user?.role==="user"?'/account':"/"}
+        className={`${pathname === '/account' ? 'font-bold text-black' : ''} hover:bg-red-950 hover:text-white text-center`}
+      >
+        {user?.role==="user"?"Account":""}
+      </Link>
+    </li>
+  </ul>
+</div>
+
+
           ) : (
             <Link href="/signup" passHref>
               <button className="bg-red-900 rounded-sm px-2 text-white text-[13px] py-1 cursor-pointer">
@@ -79,12 +107,12 @@ const Navbar = () => {
             {isLoggedIn ? (
               <li className="mt-2">
                 <Link href="/profile" onClick={handleMenuClick}>
-                  <Image 
-                    src={ logo} 
-                    alt="profile img" 
-                    width={40} 
+                  <Image
+                    src={logo}
+                    alt="profile img"
+                    width={40}
                     height={40}
-                    className="w-10 h-10 rounded-full border border-blue-700" 
+                    className="w-10 h-10 rounded-full border border-blue-700"
                   />
                 </Link>
               </li>

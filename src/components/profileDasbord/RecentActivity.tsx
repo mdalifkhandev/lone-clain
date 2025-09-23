@@ -5,7 +5,13 @@ import { VscGraph } from "react-icons/vsc";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { AiOutlineEye } from "react-icons/ai";
 
-const RecentActivity: React.FC = () => {
+interface RecentActivityProps {
+    updatedDate: string;
+}
+
+const RecentActivity: React.FC<RecentActivityProps> = ({ updatedDate }) => {
+    const nowDate = new Date().toLocaleDateString();
+    
     return (
         <div>
             <h3 className='bg-gray-200 p-4 font-bold rounded-t-sm text-black'>Recent Activity</h3>
@@ -17,7 +23,7 @@ const RecentActivity: React.FC = () => {
                         </div>
                         <h3 className="text-gray-700 text-[15px] font-semibold">Credit Score Calculator</h3>
                     </div>
-                    <p className="text-sm text-gray-700">Today</p>
+                    <p className="text-sm text-gray-700">{updatedDate === nowDate ? "Today" : updatedDate}</p>
                 </div>
                 <div className="bg-gray-50 rounded-sm items-center justify-between p-3 flex gap-2 border border-gray-300">
                     <div className='flex items-center gap-3'>
@@ -26,7 +32,7 @@ const RecentActivity: React.FC = () => {
                         </div>
                         <h3 className="text-gray-700 text-[15px] font-semibold">Profile information submitted</h3>
                     </div>
-                    <p className="text-sm text-gray-700">Today</p>
+                    <p className="text-sm text-gray-700">{updatedDate === nowDate ? "Today" : updatedDate}</p>
                 </div>
                 <div className="bg-gray-50 rounded-sm items-center justify-between p-3 flex gap-2 border border-gray-300">
                     <div className='flex items-center gap-3'>
@@ -35,7 +41,7 @@ const RecentActivity: React.FC = () => {
                         </div>
                         <h3 className="text-gray-700 text-[15px] font-semibold">Account created</h3>
                     </div>
-                    <p className="text-sm text-gray-700">Today</p>
+                    <p className="text-sm text-gray-700">{updatedDate === nowDate ? "Today" : updatedDate}</p>
                 </div>
             </div>
         </div>

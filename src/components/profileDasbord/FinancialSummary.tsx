@@ -4,21 +4,22 @@ import React from 'react';
 import { TfiMoney } from "react-icons/tfi";
 import { BiWallet } from "react-icons/bi";
 import { VscGraph } from "react-icons/vsc";
+import { getPersentage } from '../utils/getPersentage';
 
 // Define the shape of the financialInfo prop for type safety
 interface FinancialInfoProps {
-  financialInfo?: {
+  financialSummaryData?: {
     annualIncome?: number;
     valueOfLandOwnership?: number;
+    totalIncome?: number;
   };
-  debitToIncomeRatio?: number;
 }
 
-const FinancialSummary: React.FC<FinancialInfoProps> = ({ financialInfo, debitToIncomeRatio }) => {
+const FinancialSummary: React.FC<FinancialInfoProps> = ({ financialSummaryData }) => {
   // Use optional chaining and nullish coalescing for safe access
-  const annualIncome = financialInfo?.annualIncome ?? 0;
-  const valueOfLandOwnership = financialInfo?.valueOfLandOwnership ?? 0;
-  const debtRatio = debitToIncomeRatio ?? 0;
+  const annualIncome = financialSummaryData?.annualIncome ?? 0;
+  const valueOfLandOwnership = financialSummaryData?.valueOfLandOwnership ?? 0;
+  const debtRatio = getPersentage(100000,17,financialSummaryData?.totalIncome ?? 0)
 
   return (
     <div>
@@ -53,7 +54,7 @@ const FinancialSummary: React.FC<FinancialInfoProps> = ({ financialInfo, debitTo
           </div>
           <div>
             <p className="text-sm text-gray-700">Debit to income Ratio</p>
-            <h3 className="text-gray-900 text-[15px]">FCFA {debtRatio}/17</h3>
+            <h3 className="text-gray-900 text-[15px]">FCFA {debtRatio.percentage}/{debtRatio.numberOfPersentag}</h3>
           </div>
         </div>
       </div>
