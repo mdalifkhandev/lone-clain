@@ -14,10 +14,6 @@ const Navbar = () => {
   const pathname = usePathname();
   const first = user?.email ? user.email.charAt(0) : '';
   const firstLetter = first.toUpperCase();
-
-  console.log(user);
-  
-
   const handleMenuClick = () => {
     setMenu(false);
   };

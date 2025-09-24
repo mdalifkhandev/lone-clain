@@ -2,7 +2,7 @@
 
 import { useGetSingleProfile } from '@/components/api/server/profileApi';
 import ApplicationStatus from '@/components/profileDasbord/ApplicationStatus';
-import CreditLimits from '@/components/profileDasbord/ClientDashBoard';
+import CreditLimits from '@/components/profileDasbord/CreditLinits';
 import CreditScore from '@/components/profileDasbord/CreditScore';
 import FinancialSummary from '@/components/profileDasbord/FinancialSummary';
 import RecentActivity from '@/components/profileDasbord/RecentActivity';
@@ -16,7 +16,6 @@ const ClientDashboard: NextPage = () => {
     const { data: profileData } = useGetSingleProfile(user?._id as string)
     const profile = profileData?.data.data;
     const updatedDate = new Date(profile?.updatedAt).toLocaleDateString()
-    // console.log(profile?.financialInfo);
     const totalIncome = (profile?.financialInfo?.annualIncome + profile?.financialInfo?.electricityBill  + profile?.financialInfo?.mobileMoneyBalance + profile?.financialInfo?.valueOfLandOwnership)-profile?.financialInfo?.existingLoanAmount
     const creditInfo = getCreditScore(totalIncome)
     const annualIncome = profile?.financialInfo?.annualIncome
@@ -43,7 +42,7 @@ const ClientDashboard: NextPage = () => {
                 </div>
                 <div className='w-full md:w-[30%] space-y-3'>
                     <div className='bg-white rounded-sm shadow-lg'>
-                        <CreditLimits totalIncome={totalIncome} />
+                        <CreditLimits totalIncome={totalIncome} profile={profile} />
                     </div>
                     <div className='bg-white rounded-sm shadow-lg'>
                         <ApplicationStatus />

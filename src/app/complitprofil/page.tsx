@@ -17,10 +17,10 @@ const CompleteProfile = () => {
     
     const {data}=useGetSingleProfile(user?._id??'')
     
-    const contact=data?.data.data.contactInfo
-    const personal=data?.data.data.personalInfo
-    const financial=data?.data.data.financialInfo
-    const userId=data?.data.data.userId._id
+    const contact=data?.data?.data?.contactInfo
+    const personal=data?.data?.data?.personalInfo
+    const financial=data?.data?.data?.financialInfo
+    const userId=data?.data?.data?.userId._id
     
 
     const steps = [

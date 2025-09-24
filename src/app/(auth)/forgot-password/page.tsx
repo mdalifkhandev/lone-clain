@@ -39,8 +39,6 @@ const ResetPassword = () => {
                 toast.success(response.data?.message || "OTP sent successfully!");
                 setEmail(data.email); // Store the email from the form data
                 setSendOTP(true);
-                console.log(response);
-
             },
             onError: (error: Error) => {
                 if (error instanceof AxiosError) {

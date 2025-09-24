@@ -28,9 +28,30 @@ export interface profileInfo {
     contactInfo?: contactInfo|null
     financialInfo?: financialInfo
     userId?: string
+    _id?: string
 };
 
 export interface User {
     _id: string;
     email: string;
 }
+
+export type applyLoneFrom={
+    userId?:string;
+    profileId?:string;
+    loanAmount?:number|string;
+    creditScore?:number;
+    city?:string;
+    term?:boolean;
+    status?:string
+}
+
+export type Client = {
+    _id?: string;
+    city: string;
+    status: "pending" | "approved" | "rejected";
+    creditScore: string;
+    loanAmount: string;
+    userId?: personalInfo ;
+    profileId?: profileInfo;
+};

@@ -24,8 +24,6 @@ const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingS
     const electricityBill=getPersentage(5000,30,factorsAffectingScore?.electricityBill)
     const mobileMoneyBalance=getPersentage(2000,30,factorsAffectingScore?.mobileMoneyBalance)
     const today = new Date().toLocaleDateString()
-
-    console.log(annualIncome,electricityBill,mobileMoneyBalance);
     
 
     return (
@@ -69,21 +67,21 @@ const CreditScore: React.FC<CreditScoreProps> = ({ creditInfo, factorsAffectingS
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Annual Income (FCFA)</h3>
                                 <p className='text-sm text-gray-700'>{annualIncome?.percentage || 0}/{annualIncome?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={annualIncome?.percentage || 0} max={annualIncome?.numberOfPersentag || 0}></progress>
+                            <progress className="progress w-full text-green-500" value={annualIncome?.percentage || 0} max={annualIncome?.numberOfPersentag || 0}></progress>
                         </div>
                         <div>
                             <div className='flex items-center justify-between'>
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Electricity Bill (FCFA)</h3>
                                 <p className='text-sm text-gray-700'>{electricityBill?.percentage || 0}/{electricityBill?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={electricityBill?.percentage || 0} max={electricityBill?.numberOfPersentag || 0}></progress>
+                            <progress className="progress w-full text-blue-600" value={electricityBill?.percentage || 0} max={electricityBill?.numberOfPersentag || 0}></progress>
                         </div>
                         <div>
                             <div className='flex items-center justify-between'>
                                 <h3 className='text-red-950 font-semibold text-[14px]'>Mobile Money Balance (FCFA)</h3>
                                 <p className='text-sm text-gray-700'>{mobileMoneyBalance?.percentage || 0}/{mobileMoneyBalance?.numberOfPersentag || 0}</p>
                             </div>
-                            <progress className="progress w-full" value={mobileMoneyBalance?.percentage || 0} max={mobileMoneyBalance?.numberOfPersentag || 0}></progress>
+                            <progress className="progress w-full text-green-500" value={mobileMoneyBalance?.percentage || 0} max={mobileMoneyBalance?.numberOfPersentag || 0}></progress>
                         </div>
                     </div>
                 </div>

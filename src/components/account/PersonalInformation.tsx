@@ -33,8 +33,6 @@ const PersonalInformation = () => {
   const profileData=data?.data.data
   const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>();
 
-console.log(profileData)
-
   const handleUpdateProfile: SubmitHandler<IFormInput> = async (data) => {
     const contactInfo = {
       address: data.address,
